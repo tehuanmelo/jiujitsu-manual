@@ -3,6 +3,7 @@
   "pages": [
     "students-attendance-rules",
     "daily-attendance",
-    "injury-report"
+    "injury-report",
+    "incident-report"
   ]
 }

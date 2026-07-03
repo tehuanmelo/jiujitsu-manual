@@ -54,6 +54,7 @@ html > body[data-scroll-locked] {
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
+  --color-brand: var(--brand);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -96,6 +97,11 @@ html > body[data-scroll-locked] {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* Deep crimson — the rank above black belt in BJJ, used here as the
+     handbook's accent so it reads as "beyond the belt bar" rather than
+     an arbitrary color. Kept dark/saturated (not lightened) since it
+     backs hardcoded white button text in both themes. */
+  --brand: oklch(49.6% 0.265 301.924);
 }
 
 .dark {
@@ -130,6 +136,10 @@ html > body[data-scroll-locked] {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  /* Slightly brighter than the light-mode value so it still pops against
+     the near-black background, while staying dark enough for white
+     button text to stay legible. */
+  --brand: oklch(49.6% 0.265 301.924)
 }
 
 @layer base {

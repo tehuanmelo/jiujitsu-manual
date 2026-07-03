@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import { Hero7 } from '@/components/hero7';
+import { Hero } from '@/components/ui/animated-hero';
 
 export default function HomePage() {
   return (
     <div className="flex flex-col flex-1">
-      <Hero7 />
-      <div className="flex flex-col justify-center text-center pb-16">
+      <Hero />
+      {/* <div className="flex flex-col justify-center text-center pb-16">
         <p>
           You can open{' '}
           <Link href="/docs" className="font-medium underline">
@@ -13,7 +13,7 @@ export default function HomePage() {
           </Link>{' '}
           and see the documentation.
         </p>
-      </div>
+      </div> */}
     </div>
   );
 }

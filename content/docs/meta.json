@@ -1,11 +1,15 @@
+
+
 {
+  "title": "Palms Sports Jiu-Jitsu Manual",
   "pages": [
     "index",
-    "communication",
-    "dress-code",
-    "belt-promotions",
-    "daily-attendance",
-    "students-attendance-rules",
-    "lesson-structure"
+    "introduction",
+    "professional-conduct",
+    "instructor-procedures",
+    "students-test",
+    "competitions",
+    "administration",
+    "resources"
   ]
 }

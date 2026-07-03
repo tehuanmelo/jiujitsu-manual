@@ -9,7 +9,7 @@ import { buttonVariants } from 'fumadocs-ui/components/ui/button';
 export default function Layout({ children }: LayoutProps<'/docs'>) {
   return (
     <DocsLayout tree={source.getPageTree()} {...baseOptions()}>
-      <AISearch>
+      {/* <AISearch>
         <AISearchPanel />
         <AISearchTrigger
           position="float"
@@ -23,7 +23,7 @@ export default function Layout({ children }: LayoutProps<'/docs'>) {
           <MessageCircleIcon className="size-4.5" />
           Ask AI
         </AISearchTrigger>
-      </AISearch>
+      </AISearch> */}
 
 
       {children}

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
@@ -18,6 +19,7 @@ const belts = [
 export function Hero() {
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
+  const { lang = "en" } = useParams(); // rendered under app/[lang]/(home)
 
   // Each word completes a true sentence: "Every professor. The same <word>."
   const words = useMemo(
@@ -81,7 +83,7 @@ export function Hero() {
 
         <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
           <Link
-            href="/docs"
+            href={`/${lang}/docs`}
             className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
           >
             Read the handbook

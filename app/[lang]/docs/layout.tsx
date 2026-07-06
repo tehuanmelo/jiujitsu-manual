@@ -6,9 +6,11 @@ import { MessageCircleIcon } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { buttonVariants } from 'fumadocs-ui/components/ui/button';
 
-export default function Layout({ children }: LayoutProps<'/docs'>) {
+export default async function Layout({ children, params }: LayoutProps<'/[lang]/docs'>) {
+  const { lang } = await params;
+
   return (
-    <DocsLayout tree={source.getPageTree()} {...baseOptions()}>
+    <DocsLayout tree={source.getPageTree(lang)} {...baseOptions(lang)}>
       {/* <AISearch>
         <AISearchPanel />
         <AISearchTrigger

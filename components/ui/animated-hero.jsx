@@ -1,10 +1,23 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+
+// Default (English) copy so the component stays safe if rendered without props.
+// Module-level so the `words` reference is stable across renders.
+const defaultT = {
+  badge: "Palms Sports · Professor Handbook",
+  titleLine1: "Every professor.",
+  titleLine2Prefix: "The same",
+  // Each word completes a true sentence: "Every professor. The same <word>."
+  words: ["standard", "structure", "discipline", "progression", "excellence"],
+  description:
+    "The rules and procedures our BJJ professors teach by — from white belt fundamentals to black belt promotions — all kept in one place so every class at Palms Sports is held to the same standard.",
+  cta: "Read the handbook",
+};
 
 // BJJ belt order — the handbook's standards span every rank, so the progression
 // sits directly under the rotating word and the two read as one idea.
@@ -16,16 +29,12 @@ const belts = [
   { label: "Black", swatch: "#171717" },
 ];
 
-export function Hero() {
+export function Hero({ t = defaultT }) {
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const { lang = "en" } = useParams(); // rendered under app/[lang]/(home)
 
-  // Each word completes a true sentence: "Every professor. The same <word>."
-  const words = useMemo(
-    () => ["standard", "structure", "discipline", "progression", "excellence"],
-    [],
-  );
+  const words = t.words;
 
   useEffect(() => {
     if (reduceMotion) return; // don't cycle for reduced-motion users
@@ -40,13 +49,13 @@ export function Hero() {
       <div className="flex flex-col items-center gap-8 text-center">
         <span className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-1.5 text-xs font-medium tracking-widest text-gray-500 uppercase">
           <span className="h-1.5 w-1.5 rounded-full bg-brand" aria-hidden="true" />
-          Palms Sports · Professor Handbook
+          {t.badge}
         </span>
 
         <h1 className="text-5xl font-medium tracking-tighter text-balance text-foreground sm:text-7xl">
-          <span className="block">Every professor.</span>
+          <span className="block">{t.titleLine1}</span>
           <span className="block">
-            <span>The same</span>{" "}
+            <span>{t.titleLine2Prefix}</span>{" "}
             {/* Rotating word lives on its own full-width line so longer words
                 ("progression") never clip; siblings are absolutely stacked. */}
             <span className="relative flex h-[1.15em] w-full justify-center overflow-hidden pt-1 align-bottom">
@@ -76,9 +85,7 @@ export function Hero() {
         </h1>
 
         <p className="max-w-xl text-lg leading-relaxed text-gray-600 sm:text-xl">
-          The rules and procedures our BJJ professors teach by — from white belt
-          fundamentals to black belt promotions — all kept in one place so every
-          class at Palms Sports is held to the same standard.
+          {t.description}
         </p>
 
         <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
@@ -86,7 +93,7 @@ export function Hero() {
             href={`/${lang}/docs`}
             className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
           >
-            Read the handbook
+            {t.cta}
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
           {/* <Link

@@ -1,5 +1,4 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
-import { LanguageToggle } from '@/components/language-toggle';
 import { appName } from './shared';
 
 export function baseOptions(locale: string): BaseLayoutProps {
@@ -9,12 +8,7 @@ export function baseOptions(locale: string): BaseLayoutProps {
       title: appName,
       url: `/${locale}`,
     },
-    links: [
-      {
-        type: 'custom',
-        secondary: true,
-        children: <LanguageToggle locale={locale} />,
-      },
-    ],
+    // the built-in language select renders automatically: RootProvider
+    // receives the i18n locales + display names in app/[lang]/layout.tsx
   };
 }

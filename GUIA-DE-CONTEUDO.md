@@ -13,6 +13,8 @@ Este guia existe para que qualquer texto escrito pela equipe chegue já no forma
 
 > Não altere as regras do guia ao colar. Ele é a especificação técnica do site — se as regras não forem seguidas, o site quebra ou a página não é publicada.
 
+> Trabalhando dentro do Claude Code neste projeto? Não precisa deste fluxo: peça direto ao agente `fumadocs-writer`, que escreve os arquivos no lugar certo.
+
 ---
 
 ## 2. O que deve ser entregue
@@ -76,9 +78,13 @@ Tom de escrita — este é um manual operacional para instrutores:
 
 Só os componentes abaixo podem ser usados. **Qualquer outro componente, tag HTML ou `import` está proibido.**
 
+> **Nenhum componente precisa de `import`.** Todos já estão registrados no projeto. Se a IA escrever uma linha de `import`, apague.
+
+**Regra que vale para todos os componentes abaixo:** deixe uma **linha em branco depois da tag de abertura e antes da tag de fechamento**. Sem isso, o texto de dentro não é formatado.
+
 ### 5.1 Callout — caixas de destaque
 
-Use para avisos, alertas e informações importantes. **Não precisa de import.**
+Use para avisos, alertas e informações importantes.
 
 ```mdx
 <Callout type="info">
@@ -103,26 +109,14 @@ Proibição ou consequência grave. Algo que **não pode** acontecer.
 Regras do Callout:
 
 - Os três tipos disponíveis são exatamente: `info`, `warn`, `error`. Não invente outros.
-- **Deixe uma linha em branco depois da tag de abertura e antes da tag de fechamento.** Sem isso o texto não é formatado.
 - Um Callout tem no máximo 3 ou 4 linhas. Não coloque seções inteiras dentro dele.
 - Não use mais de 2 Callouts seguidos.
 
 ### 5.2 Steps — passo a passo
 
-Use **apenas** para sequências ordenadas (estrutura de uma aula, etapas de um procedimento).
-
-Se usar Steps, a linha de `import` abaixo é **obrigatória** e deve vir logo depois do frontmatter:
+Use **apenas** para sequências ordenadas (estrutura de uma aula, etapas de um procedimento). Uma lista de requisitos sem ordem é uma lista com `-`, não é Steps.
 
 ```mdx
----
-title: Estrutura da Aula
-description: Estrutura padrão e diretrizes de ensino para as aulas de Jiu-Jitsu.
----
-
-import { Step, Steps } from "fumadocs-ui/components/steps";
-
-Parágrafo de introdução da página.
-
 <Steps>
 
 <Step>
@@ -148,7 +142,6 @@ Regras do Steps:
 
 - Cada `<Step>` começa com um `###` que dá nome à etapa.
 - Deixe linha em branco depois de `<Steps>`, `<Step>` e antes dos fechamentos.
-- Se a página **não** usa Steps, **não** inclua a linha de import.
 
 ### 5.3 Tabelas
 
@@ -167,21 +160,94 @@ Regras das tabelas:
 - Para listar vários itens dentro de uma célula, use `•` e `<br />` — **nunca** quebre a linha de verdade dentro da tabela.
 - Máximo de 3 colunas. Tabelas mais largas não cabem no celular.
 
-### 5.4 Links
+### 5.4 Cards — páginas de índice
+
+Use apenas em páginas de índice, que apontam para as subpáginas de uma seção.
 
 ```mdx
-Veja o [Código de Vestimenta](/pt/docs/conduta-profissional/dress-code).
+<Cards>
+  <Card
+    title="Introdução"
+    description="O que este manual abrange e uma visão geral do programa."
+    href="/pt/docs/introduction"
+  />
+</Cards>
+```
+
+Atenção: o `href` do Card é a **única** exceção à regra dos links relativos da seção 5.8 — aqui o caminho é absoluto e **precisa** do idioma: `/pt/docs/...` no arquivo em português, `/en/docs/...` no arquivo em inglês.
+
+### 5.5 Tabs — variações paralelas
+
+Use quando o mesmo procedimento tem versões paralelas (por faixa, por dia da semana, por base).
+
+```mdx
+<Tabs items={['Faixa Azul', 'Faixa Roxa']}>
+
+<Tab value="Faixa Azul">
+
+Conteúdo da Faixa Azul.
+
+</Tab>
+
+<Tab value="Faixa Roxa">
+
+Conteúdo da Faixa Roxa.
+
+</Tab>
+
+</Tabs>
+```
+
+Não force Tabs. Se as versões não forem realmente paralelas, use `##` normais.
+
+### 5.6 Accordions — detalhe que pode ficar recolhido
+
+Use para perguntas frequentes, exceções longas e detalhes opcionais que atrapalham a leitura principal.
+
+```mdx
+<Accordions type="single">
+
+<Accordion title="E se o aluno perder o booklet?">
+
+O oficial supervisor geral do Jiu-Jitsu deve ser comunicado.
+
+</Accordion>
+
+</Accordions>
+```
+
+### 5.7 Files — estrutura de pastas
+
+Use para representar uma estrutura de pastas e arquivos, física ou digital.
+
+```mdx
+<Files>
+
+<Folder name="Relatórios" defaultOpen>
+
+<File name="injury-report.pdf" />
+
+</Folder>
+
+</Files>
+```
+
+### 5.8 Links
+
+```mdx
+Veja o [Código de Vestimenta](../professional-conduct/dress-code).
 ```
 
 Regras dos links:
 
-- O caminho **sempre** começa com o idioma: `/pt/docs/...` no arquivo em português e `/en/docs/...` no arquivo em inglês.
-- **Nunca** escreva `/docs/...` sem o idioma na frente — o link quebra.
+- O link é **relativo ao arquivo atual**, como um caminho de pasta: `../test/test-requirements`, `./booklet`.
+- **Não coloque o idioma no caminho.** O site resolve sozinho, e o mesmo link funciona no arquivo em inglês e no arquivo em português — é por isso que usamos relativo.
+- **Nunca** escreva `/docs/...`. Esse formato quebra.
 - Não coloque `.mdx` no final do link.
-- Para apontar para uma seção específica, acrescente `#` mais o título da seção em minúsculas com hífens: `/pt/docs/conduta-profissional/dress-code#durante-as-aulas`.
+- Para apontar para uma seção específica, acrescente `#` mais o título da seção em minúsculas com hífens: `../professional-conduct/dress-code#durante-as-aulas`.
 - Se você não souber o caminho exato da outra página, **não invente**: escreva o nome da seção em **negrito** e adicione o comentário `<!-- LINK: confirmar caminho -->` na linha. O responsável ajusta depois.
 
-### 5.5 Imagens
+### 5.9 Imagens
 
 ```mdx
 ![Formulário de presença](/attendance-form.png)
@@ -193,14 +259,16 @@ Regras das imagens:
 - Nome do arquivo em minúsculas, sem acento e sem espaço, separado por hífen: `scorecard-header.png`.
 - Sempre escreva um texto descritivo entre os colchetes.
 - Envie os arquivos de imagem junto com o texto, com exatamente esses nomes.
+- Toda imagem abre em tela cheia ao ser clicada — isso é automático, não precisa de nada.
+- Se a imagem ficar larga demais, envolva com `<div className="mx-auto max-w-sm">` (com linha em branco antes e depois da imagem).
 
 ---
 
 ## 6. Proibido (quebra o site)
 
-- Qualquer componente que não esteja na seção 5 (`<Tabs>`, `<Cards>`, `<Accordion>`, `<Files>`, etc.).
-- Qualquer `import` além da linha exata do Steps.
-- Tags HTML soltas (`<div>`, `<span>`, `<b>`, `<p>`, `<img>`). A única exceção é `<br />` dentro de tabelas.
+- Qualquer componente que não esteja na seção 5. O site tem outros componentes (`<TypeTable>`, `<Banner>`, `<InlineTOC>`), mas eles exigem configuração técnica e não são para uso da equipe — se o seu conteúdo parecer pedir um deles, descreva a necessidade no final da resposta em vez de escrever a tag.
+- **Qualquer linha de `import`.** Todos os componentes da seção 5 já estão disponíveis.
+- Tags HTML soltas (`<span>`, `<b>`, `<p>`, `<img>`). As únicas exceções são `<br />` dentro de tabelas e `<div className="...">` para limitar a largura de uma imagem.
 - O símbolo `<` solto no texto. Se precisar escrever "menor que", escreva por extenso ou use `&lt;`.
 - Chaves `{` e `}` soltas no texto. Se precisar, escreva `&#123;` e `&#125;`.
 - Títulos nível 1 (`#`) no corpo.
@@ -210,43 +278,45 @@ Regras das imagens:
 
 ## 7. Onde o arquivo vai ficar
 
-O conteúdo vive em `content/docs/en/...` (inglês) e `content/docs/pt/...` (português). As pastas têm nomes diferentes em cada idioma:
+O conteúdo vive em `content/docs/en/...` (inglês) e `content/docs/pt/...` (português). **As pastas têm exatamente os mesmos nomes nos dois idiomas** — só o conteúdo é traduzido:
 
-| Assunto | Pasta em inglês | Pasta em português |
-| ------- | --------------- | ------------------ |
-| Introdução, visão geral, cadeia de comando | `en/introduction/` | `pt/introducao/` |
-| Conduta profissional, vestimenta | `en/professional-conduct/` | `pt/conduta-profissional/` |
-| Aulas do dia a dia | `en/instructor-procedures/daily-classes/` | `pt/procedimentos/aulas/` |
-| Documentação, formulários, relatórios | `en/instructor-procedures/documentation/` | `pt/procedimentos/documentacao/` |
-| Testes e promoções de alunos | `en/students-test/` | `pt/procedimentos/test/` |
-| Competições | `en/competitions/` | `pt/competicao/` |
+| Assunto | Pasta (nos dois idiomas) |
+| ------- | ------------------------ |
+| Introdução, visão geral, cadeia de comando | `introduction/` |
+| Conduta profissional, vestimenta | `professional-conduct/` |
+| Desenvolvimento profissional, avaliação anual | `professional-development/` |
+| Recursos humanos, férias | `human-resources/` |
+| Aulas do dia a dia | `procedures/daily-classes/` |
+| Booklet do aluno, estampas | `procedures/booklet/` |
+| Documentação, formulários, relatórios | `procedures/documentation/` |
+| Testes e promoções de alunos | `procedures/test/` |
 
 Regras de nome de arquivo:
 
-- Minúsculas, sem acento, sem espaço, separado por hífen: `injury-report.mdx`, `estrutura-da-aula.mdx`.
-- Extensão sempre `.mdx`.
+- **O nome do arquivo é o mesmo nos dois idiomas, e sempre em inglês.** `lesson-structure.mdx` em `en/` e em `pt/`. Não traduza nome de arquivo.
+- Minúsculas, sem acento, sem espaço, separado por hífen. Extensão sempre `.mdx`.
 - Se o assunto não se encaixar em nenhuma pasta da tabela, **não crie uma pasta nova**: use a pasta mais próxima e escreva um aviso no final da resposta dizendo que uma nova seção pode ser necessária.
 
 Cada arquivo entregue deve vir com o caminho completo escrito acima dele, assim:
 
 ```
-content/docs/en/students-test/test-requirements.mdx
-content/docs/pt/procedimentos/test/requerimentos.mdx
+content/docs/en/procedures/test/test-requirements.mdx
+content/docs/pt/procedures/test/test-requirements.mdx
 ```
 
 ---
 
 ## 8. Entrada no `meta.json` (menu lateral)
 
-Uma página nova só aparece no menu se o nome do arquivo (sem `.mdx`) for adicionado ao `meta.json` da pasta. Cada arquivo entregue precisa vir acompanhado da indicação de onde entrar:
+Uma página nova só aparece no menu se o nome do arquivo (sem `.mdx`) for adicionado ao `meta.json` da pasta — **nos dois idiomas**. Cada arquivo entregue precisa vir acompanhado da indicação de onde entrar:
 
 ```
-Adicionar em content/docs/pt/procedimentos/test/meta.json:
+Adicionar em content/docs/pt/procedures/test/meta.json:
 
 {
   "title": "Teste",
   "pages": [
-    "requerimentos",
+    "test-requirements",
     "scorecard",
     "nome-do-novo-arquivo"
   ]
@@ -256,7 +326,7 @@ Adicionar em content/docs/pt/procedimentos/test/meta.json:
 Regras:
 
 - A ordem da lista `pages` é a ordem que aparece no menu. Indique em qual posição a página nova deve entrar.
-- O nome dentro de `pages` é o nome do arquivo **sem** a extensão `.mdx`.
+- O nome dentro de `pages` é o nome do arquivo **sem** a extensão `.mdx`, e é idêntico nos dois idiomas.
 - Não altere o `title` do `meta.json` existente.
 
 ---
@@ -268,7 +338,8 @@ Os dois arquivos são a mesma página em idiomas diferentes. Portanto:
 - **Mesma quantidade de seções, na mesma ordem.**
 - **Mesmos Callouts, nos mesmos lugares, com o mesmo `type`.**
 - **Mesmas tabelas, com as mesmas linhas e colunas.**
-- Só o idioma muda: texto, `title`, `description`, títulos das seções e o prefixo dos links (`/en/` ou `/pt/`).
+- **Mesmo nome de arquivo e mesmo caminho de pasta.**
+- Só o idioma muda: texto, `title`, `description` e títulos das seções. Os links relativos são idênticos nos dois arquivos.
 - Termos técnicos de Jiu-Jitsu que já são usados em português permanecem em português nos dois arquivos quando for o padrão do esporte (ex.: *Jiu-Jitsu*, nomes de faixas seguem o idioma do arquivo).
 - Números, prazos e requisitos **têm que ser idênticos** nas duas versões. Um erro de tradução em um número é um erro de procedimento.
 
@@ -282,16 +353,16 @@ Antes de entregar, confira item por item:
 - [ ] A `description` é uma única frase terminando em ponto.
 - [ ] Não existe `#` no corpo do documento.
 - [ ] A página começa com parágrafo de introdução, não com um título.
-- [ ] Se usa `<Steps>`, a linha de import está presente. Se não usa, o import **não** está lá.
-- [ ] Todo `<Callout>` tem linha em branco depois da abertura e antes do fechamento.
+- [ ] **Não existe nenhuma linha de `import`.**
+- [ ] Todo componente tem linha em branco depois da abertura e antes do fechamento.
 - [ ] O `type` de todo Callout é `info`, `warn` ou `error`.
-- [ ] Toda tabela tem a linha `| --- | --- |`.
-- [ ] Todo link interno começa com `/en/docs/` ou `/pt/docs/`.
-- [ ] Não há nenhum componente, import ou tag HTML fora da seção 5.
+- [ ] Toda tabela tem a linha `| --- | --- |` e no máximo 3 colunas.
+- [ ] Todo link interno é relativo (`../pasta/pagina`), sem idioma e sem `.mdx`.
+- [ ] Não há nenhum componente ou tag HTML fora da seção 5.
 - [ ] Não há `<` nem `{` soltos no texto.
-- [ ] Os dois arquivos (en e pt) têm exatamente a mesma estrutura de seções.
+- [ ] Os dois arquivos (en e pt) têm exatamente a mesma estrutura de seções e o mesmo nome.
 - [ ] Os caminhos completos dos dois arquivos estão escritos.
-- [ ] O trecho do `meta.json` está incluído.
+- [ ] O trecho do `meta.json` está incluído, para os dois idiomas.
 
 ---
 
@@ -325,7 +396,7 @@ Arriving after the scheduled class time is considered a breach of the operationa
 
 ## Reporting Absences
 
-If an instructor is unable to attend a scheduled class, the base coordinator must be informed **at least 12 hours in advance**, following the [Chain of Command](/en/docs/introduction/chain-of-command).
+If an instructor is unable to attend a scheduled class, the base coordinator must be informed **at least 12 hours in advance**, following the [Chain of Command](../introduction/chain-of-command).
 
 <Callout type="error">
 
@@ -334,7 +405,7 @@ Missing a class without prior notice is not acceptable under any circumstance.
 </Callout>
 ```
 
-**Arquivo 2 — `content/docs/pt/conduta-profissional/pontualidade.mdx`**
+**Arquivo 2 — `content/docs/pt/professional-conduct/punctuality.mdx`**
 
 ```mdx
 ---
@@ -362,7 +433,7 @@ Chegar após o horário previsto da aula é considerado uma quebra do padrão op
 
 ## Comunicação de Ausências
 
-Caso o instrutor não possa comparecer a uma aula programada, o coordenador da base deve ser informado com **no mínimo 12 horas de antecedência**, seguindo a [Cadeia de Comando](/pt/docs/introducao/chain-of-command).
+Caso o instrutor não possa comparecer a uma aula programada, o coordenador da base deve ser informado com **no mínimo 12 horas de antecedência**, seguindo a [Cadeia de Comando](../introduction/chain-of-command).
 
 <Callout type="error">
 
@@ -371,11 +442,13 @@ Faltar a uma aula sem aviso prévio não é aceitável em nenhuma circunstância
 </Callout>
 ```
 
+Repare que o link é **idêntico nos dois arquivos** — é essa a vantagem do link relativo.
+
 **Trecho 3 — `meta.json`**
 
 ```
 Adicionar "punctuality" em content/docs/en/professional-conduct/meta.json, após "dress-code".
-Adicionar "pontualidade" em content/docs/pt/conduta-profissional/meta.json, após "dress-code".
+Adicionar "punctuality" em content/docs/pt/professional-conduct/meta.json, após "dress-code".
 ```
 
 ---

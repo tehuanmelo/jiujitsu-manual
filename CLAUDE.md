@@ -17,6 +17,12 @@ There is no test suite and no lint script configured in this repo. Use `npm run 
 
 Any change touching `app/`, `components/`, or `app/global.css` (new UI, component edits, layout/styling changes, installing shadcn/shadcnblocks components) should be delegated to the **`frontend` subagent** (`.claude/agents/frontend.md`) rather than done ad hoc. That agent is scoped to this project's shadcn/Tailwind conventions and is required to consult the `frontend-design` skill before producing UI.
 
+## Content work goes through the `fumadocs-writer` agent
+
+Any work on `content/docs/` — turning raw text into a page, restructuring an existing `.mdx`, mirroring a page between the `pt` and `en` locales, or reordering `meta.json` navigation — should be delegated to the **`fumadocs-writer` subagent** (`.claude/agents/fumadocs-writer.md`). It knows which Fumadocs component fits which kind of content, the bilingual pairing rules, and the MDX pitfalls specific to this repo.
+
+`GUIA-DE-CONTEUDO.md` is the same spec written for team members pasting into ChatGPT/Gemini outside Claude Code. It and the agent must stay in sync — if you change an authoring rule, change both.
+
 ## Architecture
 
 This is a [Fumadocs](https://fumadocs.dev) documentation site on Next.js (App Router), with an AI chat assistant bolted on. Three things make the structure non-obvious from file names alone:

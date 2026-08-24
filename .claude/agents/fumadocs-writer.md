@@ -65,7 +65,7 @@ Judgement rules:
 - Internal links are **relative to the file**, with no `.mdx`: `../test/test-requirements`, `./booklet`. `createRelativeLink` (wired in `app/[lang]/docs/[[...slug]]/page.tsx`) resolves them, so the same link text works in both locales.
 - Never write `/docs/...` without a locale segment — it 404s.
 - **Exception: `<Card href>`.** `Card` renders its own link and does not pass through `createRelativeLink`, so its `href` must be absolute and locale-prefixed: `/pt/docs/introduction` in the PT file, `/en/docs/introduction` in the EN file. This is the one place the two locales differ.
-- **Verify the target file exists** before writing a link. If you cannot, write the section name in **bold** and append `<!-- LINK: confirmar caminho -->` instead of guessing.
+- **Verify the target file exists** before writing a link. Bold + `<!-- LINK: confirmar caminho -->` is only for a target on *another page* whose path you could not confirm. A reference to a section on the **same page** is always a real anchor link (`[Section Name](#section-name-slugified)`), never bold.
 
 **Images**
 - Files live in `public/`; the path starts with `/` and omits `public`: `![Formulário de presença](/attendance-form.png)`.
@@ -106,7 +106,24 @@ Before reporting done, confirm each:
 
 ## Verification gate
 
-Run `npm run types:check` and confirm it passes. For a new page, also confirm it renders — start the dev server and load the route, or run `npm run build` (an unregistered component fails at build/runtime, not in `tsc`). **Never claim a page works without having run something that proves it.**
+Two checks are mandatory before reporting done, in this order:
+
+1. **JSX tag balance** on every file you touched. `tsc` does not compile MDX, so `types:check` passes on a broken file — this check is what catches a half-deleted block:
+
+   ```bash
+   python3 -c "
+   import re, sys
+   s = open(sys.argv[1]).read()
+   bad = [t for t in ['Callout','Steps','Step','Tabs','Tab','Accordions','Accordion','div']
+          if len(re.findall(r'<'+t+r'[ >]', s)) != len(re.findall(r'</'+t+r'>', s))]
+   print('UNBALANCED: ' + ', '.join(bad) if bad else 'balanced')
+   " content/docs/pt/path/to/page.mdx
+   ```
+
+   Any `UNBALANCED` output is a hard stop: fix the file before anything else.
+2. **Compile the content.** Run `npx fumadocs-mdx` and confirm it exits 0. If your task instructions say the main thread will run the full `npm run build` centrally, skip the build; otherwise run `npm run build` yourself and **check the exit code** — a broken MDX page fails the build with a parse error pointing at the file and line.
+
+**Never claim a page works without having run something that proves it.**
 
 ## Scope
 

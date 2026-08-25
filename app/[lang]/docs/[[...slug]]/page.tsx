@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { getMDXComponents } from '@/components/mdx';
 import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
+import { OrgChart } from '@/components/team/org-chart';
 
 export default async function Page(props: PageProps<'/[lang]/docs/[[...slug]]'>) {
   const params = await props.params;
@@ -21,6 +22,8 @@ export default async function Page(props: PageProps<'/[lang]/docs/[[...slug]]'>)
           components={getMDXComponents({
             // this allows you to link to other pages with relative file paths
             a: createRelativeLink(source, page),
+            // MDX authors write a bare `<OrgChart />`; bind the reader's locale here
+            OrgChart: () => <OrgChart lang={params.lang} />,
           })}
         />
       </DocsBody>

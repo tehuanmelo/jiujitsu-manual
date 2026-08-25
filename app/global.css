@@ -102,6 +102,16 @@ html > body[data-scroll-locked] {
      an arbitrary color. Kept dark/saturated (not lightened) since it
      backs hardcoded white button text in both themes. */
   --brand: oklch(49.6% 0.265 301.924);
+  /* Three violets, not one, because each sits on a different ground.
+     --brand is a FILL under hardcoded white text (7.12:1) and must stay dark.
+     --brand-text is INK on the page ground. --rank-arc must clear the track
+     on a dark card. Plain custom properties on purpose: rankRing() writes the
+     literal text `var(--rank-arc)` into a style attribute, and `@theme inline`
+     never emits --color-* into :root, so a --color-* name would resolve to
+     nothing and void the whole background declaration. */
+  --brand-text: oklch(49.6% 0.265 301.924);
+  --rank-arc: oklch(49.6% 0.265 301.924);
+  --rank-track: oklch(0.145 0 0 / 11%);
 }
 
 .dark {
@@ -136,10 +146,16 @@ html > body[data-scroll-locked] {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-  /* Slightly brighter than the light-mode value so it still pops against
-     the near-black background, while staying dark enough for white
-     button text to stay legible. */
-  --brand: oklch(49.6% 0.265 301.924)
+  /* Deliberately identical to the light-mode value: white text on it measures
+     7.12:1 in both themes, and lightening it for the dark ground would drop
+     that to 4.23:1. What needs to go lighter here is ink on the ground, which
+     is --brand-text below, not this fill. */
+  --brand: oklch(49.6% 0.265 301.924);
+  /* Ink and arcs go lighter here: the light-mode violet reads 2.66:1 on the
+     near-black ground, which fails. --brand stays put — it still backs white text. */
+  --brand-text: oklch(70.9% 0.159 293.541);
+  --rank-arc: oklch(70.9% 0.159 293.541);
+  --rank-track: oklch(1 0 0 / 14%);
 }
 
 @layer base {

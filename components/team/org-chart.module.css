@@ -1,0 +1,104 @@
+/*
+ * The scroll cue for the org-chart scroller.
+ *
+ * Nothing in this component tree carries a client directive and nothing may
+ * start to, so a scroll listener is out. The cue is a mask on the scroller,
+ * in two layers: one that every engine renders, and one that replaces it with
+ * the exact thing where the engine can follow a scroll offset in CSS.
+ *
+ * Why a mask rather than a gradient overlay:
+ *  - it fades the content itself, so there is no `--background` colour to
+ *    impersonate and it is right in both themes by construction;
+ *  - it is not a box, so it cannot swallow a click or cover a card;
+ *  - it stays on the scroller's border box while the content scrolls under it.
+ */
+
+/*
+ * Layer 1 — universal. The tree is a fixed 816px wide from `md` up (the two
+ * child rows are 768px, plus 24px of `md:px-3` on the root `<li>` and 24px on
+ * the root `<ul>`), so a column narrower than that is a column the tree
+ * overflows. Re-measure this number if the tree gains or loses a branch:
+ * it is the only hard-coded width here, and only engines without
+ * scroll-driven animations ever read it.
+ *
+ * The `@media` gate matters: below `md` the chart is a stacked column with no
+ * scroller, and the container is narrow there too — without it every phone
+ * would get a fade over a list that does not scroll.
+ */
+@media (min-width: 768px) {
+  @container org-chart (max-width: 815px) {
+    .scroller {
+      mask-image: linear-gradient(
+        to right,
+        #000 0,
+        #000 3rem,
+        #000 calc(100% - 3rem),
+        #0000 100%
+      );
+    }
+  }
+}
+
+.chart {
+  container: org-chart / inline-size;
+}
+
+/*
+ * Layer 2 — Chrome/Edge 115+, Safari 26+. Drives the same mask from the
+ * scroller's own offset, so the left edge fades once there is something
+ * hidden behind it and the right edge stops claiming there is more once you
+ * reach the end. Animation declarations outrank the rule above, so where this
+ * applies it simply takes over.
+ *
+ * It also carries its own off switch: a scroll timeline whose scroller has no
+ * scrollable overflow is inactive, and an animation on an inactive timeline
+ * produces no effect — no 816px to keep in sync. Firefox 146 does not
+ * implement this yet, which is what layer 1 is for.
+ */
+@supports (animation-timeline: scroll()) {
+  @media (min-width: 768px) {
+    .scroller {
+      animation: edgeFade linear;
+      animation-timeline: scroll(self inline);
+    }
+  }
+}
+
+/*
+ * Every frame carries the same four stops in the same positions, so only the
+ * two end colours interpolate. The 6% / 94% holds keep the fade at full
+ * strength across the middle of the range rather than easing it across the
+ * whole scroll: an edge is either hiding something or it is not.
+ */
+@keyframes edgeFade {
+  0% {
+    mask-image: linear-gradient(
+      to right,
+      #000 0,
+      #000 3rem,
+      #000 calc(100% - 3rem),
+      #0000 100%
+    );
+  }
+
+  6%,
+  94% {
+    mask-image: linear-gradient(
+      to right,
+      #0000 0,
+      #000 3rem,
+      #000 calc(100% - 3rem),
+      #0000 100%
+    );
+  }
+
+  100% {
+    mask-image: linear-gradient(
+      to right,
+      #0000 0,
+      #000 3rem,
+      #000 calc(100% - 3rem),
+      #000 100%
+    );
+  }
+}

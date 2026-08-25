@@ -5,6 +5,7 @@ import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 import { File, Files, Folder } from 'fumadocs-ui/components/files';
 import { TypeTable } from 'fumadocs-ui/components/type-table';
 import { ImageZoom, type ImageZoomProps } from 'fumadocs-ui/components/image-zoom';
+import { OrgChart } from '@/components/team/org-chart';
 import type { MDXComponents } from 'mdx/types';
 
 // `defaultMdxComponents` already provides Callout (+ CalloutContainer/Title/Description),
@@ -30,6 +31,11 @@ export function getMDXComponents(components?: MDXComponents) {
     Folder,
     TypeTable,
     ImageZoom,
+    // MDX authors write a bare `<OrgChart />`; the docs page overrides this entry
+    // with one bound to `params.lang` (`...components` is spread last, so it wins).
+    // The 'en' default here only exists so the tag still renders if the component
+    // map is used outside the localised docs route.
+    OrgChart: () => <OrgChart lang="en" />,
     // reference photos (forms, booklets, scorecards) open in a zoom overlay
     img: (props) => <ImageZoom {...(props as ImageZoomProps)} />,
     ...components,

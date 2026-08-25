@@ -1,0 +1,67 @@
+{
+  "_comment": "Leadership org chart data. Edit this file to change the chart — no component changes needed. Validated by lib/team.ts at build time: a typo here fails `npm run build` with a readable message rather than shipping a broken page. Roles are a lookup table so each label is written once per language. `reportsTo` is the person's id, or null for the single root. Sibling order follows the order of this array. Names and photos are placeholders.",
+  "roles": {
+    "ceo": {
+      "level": 6,
+      "label": { "en": "CEO / General Manager", "pt": "CEO / Gerente Geral" },
+      "blurb": {
+        "en": "Sets the company's strategic direction and oversees the organization's overall performance.",
+        "pt": "Define a direção estratégica da empresa e supervisiona o desempenho geral da organização."
+      }
+    },
+    "technical-manager": {
+      "level": 5,
+      "label": { "en": "Technical Manager", "pt": "Gerente Técnico" },
+      "blurb": {
+        "en": "Manages the technical department: hiring, promotions, disciplinary actions and team development.",
+        "pt": "Gerencia o departamento técnico: contratações, promoções, ações disciplinares e a equipe."
+      }
+    },
+    "supervisor": {
+      "level": 4,
+      "label": { "en": "Supervisor", "pt": "Supervisor" },
+      "blurb": {
+        "en": "Oversees daily operations, monitors performance, prepares reports and provides technical guidance.",
+        "pt": "Supervisiona as operações diárias, monitora desempenho, prepara relatórios e orienta tecnicamente."
+      }
+    },
+    "team-leader": {
+      "level": 3,
+      "label": { "en": "Team Leader", "pt": "Team Leader" },
+      "blurb": {
+        "en": "Coordinates instructors, manages schedules and reports incidents and team performance.",
+        "pt": "Coordena os instrutores, gerencia horários e reporta incidentes e o desempenho da equipe."
+      }
+    },
+    "advisor": {
+      "level": 2,
+      "label": { "en": "Advisor", "pt": "Advisor" },
+      "blurb": {
+        "en": "Supports instructors and Team Leaders with technical guidance and operational problem-solving.",
+        "pt": "Apoia instrutores e Team Leaders com orientação técnica e resolução de problemas operacionais."
+      }
+    },
+    "head-coach": {
+      "level": 1,
+      "label": { "en": "Head Coach", "pt": "Head Coach" },
+      "blurb": {
+        "en": "Directly supervises instructors and ensures training quality at the assigned base.",
+        "pt": "Supervisiona diretamente os instrutores e garante a qualidade do treinamento na base."
+      }
+    }
+  },
+  "people": [
+    { "id": "fouad-darwish",  "name": "Fouad Darwish",  "role": "ceo",               "reportsTo": null,           "photo": "/team/marcus-stone.svg",  "base": "Head Office" },
+
+    { "id": "lucio-linhares",  "name": "Lucio Linhares",  "role": "technical-manager", "reportsTo": "fouad-darwish", "photo": "/team/marcus-stone.svg",  "base": "North Region" },
+
+    { "id": "carlos-diego",    "name": "Carlos Diego",    "role": "supervisor",        "reportsTo": "lucio-linhares", "photo": "/team/dante-cruz.svg",    "base": "Base 01" },
+    { "id": "bruno-vercosa",    "name": "Bruno Vercosa",    "role": "supervisor",        "reportsTo": "lucio-linhares", "photo": "/team/dante-cruz.svg",    "base": "Base 01" },
+
+    { "id": "fernando-bizerra",  "name": "Fernando Bizerra",  "role": "team-leader",       "reportsTo": "carlos-diego",   "photo": "/team/kai-nakamura.svg",  "base": "Base 01" },
+    { "id": "ricardo-dutra",  "name": "Ricardo Dutra",  "role": "team-leader",       "reportsTo": "carlos-diego",   "photo": "/team/kai-nakamura.svg",  "base": "Base 01" },
+
+    { "id": "tehuan-melo", "name": "Tehuan Melo", "role": "advisor",           "reportsTo": "fernando-bizerra", "photo": "/team/rafael-duarte.svg", "base": "Base 01" },
+    { "id": "alexandre-costa",   "name": "Alexandre Costa",   "role": "advisor",           "reportsTo": "ricardo-dutra", "photo": "/team/mira-solano.svg",   "base": "Base 03" }
+  ]
+}

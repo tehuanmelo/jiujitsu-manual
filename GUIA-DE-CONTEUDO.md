@@ -21,12 +21,12 @@ Este guia existe para que qualquer texto escrito pela equipe chegue já no forma
 
 Em **uma única resposta**, a IA deve entregar quatro coisas:
 
-| # | Item | Descrição |
-| - | ---- | --------- |
-| 1 | Arquivo `.mdx` em **inglês** | Com o caminho completo onde ele deve ser salvo |
-| 2 | Arquivo `.mdx` em **português** | Mesmo conteúdo, mesma estrutura, traduzido |
-| 3 | Trecho do `meta.json` | Para que a página apareça no menu lateral |
-| 4 | Lista de imagens | Nome dos arquivos de imagem citados (se houver) |
+| #   | Item                            | Descrição                                       |
+| --- | ------------------------------- | ----------------------------------------------- |
+| 1   | Arquivo `.mdx` em **inglês**    | Com o caminho completo onde ele deve ser salvo  |
+| 2   | Arquivo `.mdx` em **português** | Mesmo conteúdo, mesma estrutura, traduzido      |
+| 3   | Trecho do `meta.json`           | Para que a página apareça no menu lateral       |
+| 4   | Lista de imagens                | Nome dos arquivos de imagem citados (se houver) |
 
 O site é **bilíngue**. Uma página só é considerada completa quando existe nas duas línguas.
 
@@ -38,7 +38,7 @@ Todo arquivo `.mdx` **começa** com um bloco entre `---`, sem nenhuma linha em b
 
 ```mdx
 ---
-title: Requisitos para o Teste
+title: Requisitos para o teste
 description: Requisitos mínimos para que os alunos sejam elegíveis aos testes de promoção.
 ---
 ```
@@ -148,10 +148,10 @@ Regras do Steps:
 Use para comparações, listas de requisitos e quadros de horários.
 
 ```mdx
-| Promoção | Requisitos Mínimos |
-| -------- | ------------------ |
-| **Grau 1** | 30 aulas de Jiu-Jitsu |
-| **Faixa Branca → Faixa Azul** | • 3 aulas de Jiu-Jitsu<br />• Participação em **2 competições** |
+| Promoção                      | Requisitos Mínimos                                              |
+| ----------------------------- | --------------------------------------------------------------- |
+| **Grau 1**                    | 30 aulas de Jiu-Jitsu                                           |
+| **Faixa branca → Faixa azul** | • 3 aulas de Jiu-Jitsu<br />• Participação em **2 competições** |
 ```
 
 Regras das tabelas:
@@ -181,17 +181,17 @@ Atenção: o `href` do Card é a **única** exceção à regra dos links relativ
 Use quando o mesmo procedimento tem versões paralelas (por faixa, por dia da semana, por base).
 
 ```mdx
-<Tabs items={['Faixa Azul', 'Faixa Roxa']}>
+<Tabs items={['Faixa azul', 'Faixa roxa']}>
 
-<Tab value="Faixa Azul">
+<Tab value="Faixa azul">
 
-Conteúdo da Faixa Azul.
+Conteúdo da Faixa azul.
 
 </Tab>
 
-<Tab value="Faixa Roxa">
+<Tab value="Faixa roxa">
 
-Conteúdo da Faixa Roxa.
+Conteúdo da Faixa roxa.
 
 </Tab>
 
@@ -280,16 +280,16 @@ Regras das imagens:
 
 O conteúdo vive em `content/docs/en/...` (inglês) e `content/docs/pt/...` (português). **As pastas têm exatamente os mesmos nomes nos dois idiomas** — só o conteúdo é traduzido:
 
-| Assunto | Pasta (nos dois idiomas) |
-| ------- | ------------------------ |
-| Introdução, visão geral, cadeia de comando | `introduction/` |
-| Conduta profissional, vestimenta | `professional-conduct/` |
+| Assunto                                       | Pasta (nos dois idiomas)    |
+| --------------------------------------------- | --------------------------- |
+| Introdução, visão geral, cadeia de comando    | `introduction/`             |
+| Conduta profissional, vestimenta              | `professional-conduct/`     |
 | Desenvolvimento profissional, avaliação anual | `professional-development/` |
-| Recursos humanos, férias | `human-resources/` |
-| Aulas do dia a dia | `procedures/daily-classes/` |
-| Booklet do aluno, estampas | `procedures/booklet/` |
-| Documentação, formulários, relatórios | `procedures/documentation/` |
-| Testes e promoções de alunos | `procedures/test/` |
+| Recursos humanos, férias                      | `human-resources/`          |
+| Aulas do dia a dia                            | `procedures/daily-classes/` |
+| Booklet do aluno, estampas                    | `procedures/booklet/`       |
+| Documentação, formulários, relatórios         | `procedures/documentation/` |
+| Testes e promoções de alunos                  | `procedures/test/`          |
 
 Regras de nome de arquivo:
 
@@ -340,7 +340,7 @@ Os dois arquivos são a mesma página em idiomas diferentes. Portanto:
 - **Mesmas tabelas, com as mesmas linhas e colunas.**
 - **Mesmo nome de arquivo e mesmo caminho de pasta.**
 - Só o idioma muda: texto, `title`, `description` e títulos das seções. Os links relativos são idênticos nos dois arquivos.
-- Termos técnicos de Jiu-Jitsu que já são usados em português permanecem em português nos dois arquivos quando for o padrão do esporte (ex.: *Jiu-Jitsu*, nomes de faixas seguem o idioma do arquivo).
+- Termos técnicos de Jiu-Jitsu que já são usados em português permanecem em português nos dois arquivos quando for o padrão do esporte (ex.: _Jiu-Jitsu_, nomes de faixas seguem o idioma do arquivo).
 - Números, prazos e requisitos **têm que ser idênticos** nas duas versões. Um erro de tradução em um número é um erro de procedimento.
 
 ---
@@ -382,11 +382,11 @@ Punctuality is a core requirement of the Palms Sports Jiu-Jitsu Program. Instruc
 
 Instructors must be on the mat, in full uniform, **at least 10 minutes before** the scheduled class start time.
 
-| Situation | Required Arrival |
-| --------- | ---------------- |
-| **Regular class** | 10 minutes before |
+| Situation          | Required Arrival  |
+| ------------------ | ----------------- |
+| **Regular class**  | 10 minutes before |
 | **Promotion test** | 30 minutes before |
-| **Competition** | 60 minutes before |
+| **Competition**    | 60 minutes before |
 
 <Callout type="warn">
 
@@ -419,11 +419,11 @@ A pontualidade é um requisito essencial do Programa de Jiu-Jitsu da Palms Sport
 
 Os instrutores devem estar no tatame, com o uniforme completo, **no mínimo 10 minutos antes** do horário previsto para o início da aula.
 
-| Situação | Chegada Exigida |
-| -------- | --------------- |
-| **Aula regular** | 10 minutos antes |
+| Situação              | Chegada Exigida  |
+| --------------------- | ---------------- |
+| **Aula regular**      | 10 minutos antes |
 | **Teste de promoção** | 30 minutos antes |
-| **Competição** | 60 minutos antes |
+| **Competição**        | 60 minutos antes |
 
 <Callout type="warn">
 

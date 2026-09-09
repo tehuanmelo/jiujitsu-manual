@@ -25,3 +25,6 @@ yarn-error.log*
 .vercel
 next-env.d.ts
 _to_delete/
+
+# local sync bookkeeping (sync-drive-to-docs skill)
+.claude/drive-sync-state.json

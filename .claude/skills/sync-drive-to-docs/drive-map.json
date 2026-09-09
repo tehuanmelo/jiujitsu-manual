@@ -37,8 +37,8 @@
     { "id": "1w1eXRPHxPFbaERBtQhCyYn7km4x3aZofzfxQZFqJDyI", "title": "Requisitos para o teste", "repoPath": "content/docs/pt/procedures/test/test-requirements.mdx" },
     { "id": "14beCzS-iu_G08OMHdKMd2bWZhHQlcYwbx0XUxaVDE84", "title": "Aprovação do Scorecard", "repoPath": "content/docs/pt/procedures/test/scorecard.mdx" },
     { "id": "1TQBYRrrxoyBVHSxMhJBuetEUjY8fRwmzc8Iv3Zjl7II", "title": "Recebimento do material", "repoPath": "content/docs/pt/procedures/competitions/internal-competitions/equipment-receivals.mdx" },
-    { "id": "1h0R-1qtwhlOL9HQeMQ07i7gdzJBBa7lItRnFcftDY6Q", "title": "Montagem da estrutura", "repoPath": "content/docs/pt/procedures/competitions/internal-competitions/competition-assembly.mdx" },
-    { "id": "1YLBmNsbfY4nHQ0gdbuWOSXHQyTKJPyOkBYJ3c5uMDgA", "title": "Funcionamento da competição", "repoPath": "content/docs/pt/procedures/competitions/internal-competitions/competition-workflow.mdx" },
+    { "id": "1mprmZFbL7r4evTgfZhhqAjkEYLmzARJ03jDztKYy6T0", "title": "Montagem da estrutura", "repoPath": "content/docs/pt/procedures/competitions/internal-competitions/competition-assembly.mdx" },
+    { "id": "1v6twudvpz6PFOaZ8_35F2kCs6yi76UBDxAzg6NtpP-A", "title": "Funcionamento da competição", "repoPath": "content/docs/pt/procedures/competitions/internal-competitions/competition-workflow.mdx" },
     { "id": "1jpO5Bf6zg9A-Uh-KzsPJZaMeNrTyF1WRdn7Hl05YDpI", "title": "Responsabilidades principais", "repoPath": "content/docs/pt/procedures/competitions/internal-competitions/main-responsabilities.mdx" }
   ]
 }

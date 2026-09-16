@@ -63,7 +63,7 @@
     { "id": "alexandre-costa",    "name": "Alexandre Costa",    "role": "advisor",           "reportsTo": "ricardo-dutra",                   "photo": "/team/mira-solano.svg",   "region": "Abu Dhabi" },
     { "id": "rafael-toyofuku",    "name": "Rafael Toyofuku",    "role": "advisor",           "reportsTo": "ricardo-dutra",                   "photo": "/team/rafael-duarte.svg", "region": "Abu Dhabi" },
     { "id": "rahan-cunha",        "name": "Rahan Cunha",        "role": "advisor",           "reportsTo": "ricardo-dutra",                   "photo": "/team/mira-solano.svg",   "region": "Abu Dhabi" },
-    { "id": "adriano-castro",     "name": "Adriano Castro",     "role": "advisor",           "reportsTo": "ricardo-dutra",                   "photo": "/team/rafael-duarte.svg", "region": "Abu Dhabi" },
+    { "id": "adriano-castro",     "name": "Adriano Castro",     "role": "advisor",           "reportsTo": "ricardo-sanches",                   "photo": "/team/rafael-duarte.svg", "region": "Abu Dhabi" },
     { "id": "luiz-nepomuceno",    "name": "Luiz Nepomuceno",    "role": "advisor",           "reportsTo": "edilberto-pontes",                "photo": "/team/mira-solano.svg",   "region": "Abu Dhabi" },
     { "id": "ricardo-moreno",     "name": "Ricardo Moreno",     "role": "advisor",           "reportsTo": "edilberto-pontes",                "photo": "/team/rafael-duarte.svg", "region": "Abu Dhabi" },
     { "id": "peterson-goncalves", "name": "Peterson Goncalves", "role": "advisor",           "reportsTo": "carlos-nelson",                   "photo": "/team/mira-solano.svg",   "region": "Abu Dhabi" },

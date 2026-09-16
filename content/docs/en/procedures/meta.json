@@ -1,9 +1,11 @@
 {
   "title": "Procedures",
   "pages": [
+    "base",
     "daily-classes",
     "booklet",
     "documentation",
-    "test"
+    "test",
+    "competitions"
   ]
 }

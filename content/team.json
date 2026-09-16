@@ -1,67 +1,80 @@
 {
-  "_comment": "Leadership org chart data. Edit this file to change the chart — no component changes needed. Validated by lib/team.ts at build time: a typo here fails `npm run build` with a readable message rather than shipping a broken page. Roles are a lookup table so each label is written once per language. `reportsTo` is the person's id, or null for the single root. Sibling order follows the order of this array. Names and photos are placeholders.",
+  "_comment": "Leadership org chart data. Edit this file to change the chart — no component changes needed. Validated by lib/team.ts at build time: a typo here fails `npm run build` with a readable message rather than shipping a broken page. Roles are a lookup table so each label is written once per language. `reportsTo` is the boss's id, an array of ids for someone with more than one boss (they then appear under each boss, with their whole team), or null for the single root. Sibling order follows the order of this array. Names and photos are placeholders.",
   "roles": {
     "ceo": {
       "level": 6,
-      "label": { "en": "CEO / General Manager", "pt": "CEO / Gerente Geral" },
-      "blurb": {
-        "en": "Sets the company's strategic direction and oversees the organization's overall performance.",
-        "pt": "Define a direção estratégica da empresa e supervisiona o desempenho geral da organização."
-      }
+      "label": { "en": "CEO / General Manager", "pt": "CEO / Gerente Geral" }
     },
     "technical-manager": {
       "level": 5,
-      "label": { "en": "Technical Manager", "pt": "Gerente Técnico" },
-      "blurb": {
-        "en": "Manages the technical department: hiring, promotions, disciplinary actions and team development.",
-        "pt": "Gerencia o departamento técnico: contratações, promoções, ações disciplinares e a equipe."
-      }
+      "label": { "en": "Technical Manager", "pt": "Gerente Técnico" }
     },
     "supervisor": {
       "level": 4,
-      "label": { "en": "Supervisor", "pt": "Supervisor" },
-      "blurb": {
-        "en": "Oversees daily operations, monitors performance, prepares reports and provides technical guidance.",
-        "pt": "Supervisiona as operações diárias, monitora desempenho, prepara relatórios e orienta tecnicamente."
-      }
+      "label": { "en": "Supervisor", "pt": "Supervisor" }
     },
     "team-leader": {
       "level": 3,
-      "label": { "en": "Team Leader", "pt": "Team Leader" },
-      "blurb": {
-        "en": "Coordinates instructors, manages schedules and reports incidents and team performance.",
-        "pt": "Coordena os instrutores, gerencia horários e reporta incidentes e o desempenho da equipe."
-      }
+      "label": { "en": "Team Leader", "pt": "Team Leader" }
     },
     "advisor": {
       "level": 2,
-      "label": { "en": "Advisor", "pt": "Advisor" },
-      "blurb": {
-        "en": "Supports instructors and Team Leaders with technical guidance and operational problem-solving.",
-        "pt": "Apoia instrutores e Team Leaders com orientação técnica e resolução de problemas operacionais."
-      }
+      "label": { "en": "Advisor", "pt": "Advisor" }
     },
     "head-coach": {
       "level": 1,
-      "label": { "en": "Head Coach", "pt": "Head Coach" },
-      "blurb": {
-        "en": "Directly supervises instructors and ensures training quality at the assigned base.",
-        "pt": "Supervisiona diretamente os instrutores e garante a qualidade do treinamento na base."
-      }
+      "label": { "en": "Head Coach", "pt": "Head Coach" }
     }
   },
   "people": [
-    { "id": "fouad-darwish",  "name": "Fouad Darwish",  "role": "ceo",               "reportsTo": null,           "photo": "/team/marcus-stone.svg",  "base": "Head Office" },
+    { "id": "fouad-darwish",      "name": "Fouad Darwish",      "role": "ceo",               "reportsTo": null,                              "photo": "/team/fouad-darwish-ceo.png", "base": "Head Office" },
 
-    { "id": "lucio-linhares",  "name": "Lucio Linhares",  "role": "technical-manager", "reportsTo": "fouad-darwish", "photo": "/team/marcus-stone.svg",  "base": "North Region" },
+    { "id": "lucio-linhares",     "name": "Lucio Linhares",     "role": "technical-manager", "reportsTo": "fouad-darwish",                   "photo": "/team/marcus-stone.svg" },
 
-    { "id": "carlos-diego",    "name": "Carlos Diego",    "role": "supervisor",        "reportsTo": "lucio-linhares", "photo": "/team/dante-cruz.svg",    "base": "Base 01" },
-    { "id": "bruno-vercosa",    "name": "Bruno Vercosa",    "role": "supervisor",        "reportsTo": "lucio-linhares", "photo": "/team/dante-cruz.svg",    "base": "Base 01" },
+    { "id": "cassiano-cunha",     "name": "Cassiano Cunha",     "role": "supervisor",        "reportsTo": "lucio-linhares",                  "photo": "/team/dante-cruz.svg",    "region": "Abu Dhabi" },
+    { "id": "pedro-duarte",       "name": "Pedro Duarte",       "role": "supervisor",        "reportsTo": "lucio-linhares",                  "photo": "/team/dante-cruz.svg",   "region": "Abu Dhabi" },
+    { "id": "bruno-vercosa",      "name": "Bruno Vercosa",      "role": "supervisor",        "reportsTo": "lucio-linhares",                  "photo": "/team/dante-cruz.svg",    "region": "Abu Dhabi" },
+    { "id": "carlos-diego",       "name": "Carlos Diego",       "role": "supervisor",        "reportsTo": "lucio-linhares",                  "photo": "/team/carlos-diego-supervisor.jpeg", "region": "Abu Dhabi" },
+    { "id": "pedro-mesquita",     "name": "Pedro Mesquita",     "role": "supervisor",        "reportsTo": "lucio-linhares",                  "photo": "/team/dante-cruz.svg",    "region": "Al Ain" },
+    { "id": "nilson-lopes",       "name": "Nilson Lopes",       "role": "supervisor",        "reportsTo": "lucio-linhares",                  "photo": "/team/dante-cruz.svg",   "region": "North Region" },
+    { "id": "flavio-ferreira",    "name": "Flavio Ferreira",    "role": "supervisor",        "reportsTo": "lucio-linhares",                  "photo": "/team/dante-cruz.svg",   "region": "North Region" },
+    { "id": "alvaro-cardoso",     "name": "Alvaro Cardoso",     "role": "supervisor",        "reportsTo": "lucio-linhares",                  "photo": "/team/dante-cruz.svg",   "region": "NSA" },
 
-    { "id": "fernando-bizerra",  "name": "Fernando Bizerra",  "role": "team-leader",       "reportsTo": "carlos-diego",   "photo": "/team/kai-nakamura.svg",  "base": "Base 01" },
-    { "id": "ricardo-dutra",  "name": "Ricardo Dutra",  "role": "team-leader",       "reportsTo": "carlos-diego",   "photo": "/team/kai-nakamura.svg",  "base": "Base 01" },
+    { "id": "fernando-bizerra",   "name": "Fernando Bizerra",   "role": "team-leader",       "reportsTo": ["carlos-diego", "bruno-vercosa"], "photo": "/team/kai-nakamura.svg",  "region": "Abu Dhabi" },
+    { "id": "ricardo-dutra",      "name": "Ricardo Dutra",      "role": "team-leader",       "reportsTo": ["carlos-diego", "bruno-vercosa"], "photo": "/team/ricardo-dutra-team-leader.jpeg", "region": "Abu Dhabi" },
+    { "id": "edilberto-pontes",   "name": "Edilberto Pontes",   "role": "team-leader",       "reportsTo": ["carlos-diego", "bruno-vercosa"], "photo": "/team/kai-nakamura.svg",  "region": "Abu Dhabi" },
+    { "id": "ricardo-sanches",    "name": "Ricardo Sanches",    "role": "team-leader",       "reportsTo": ["carlos-diego", "bruno-vercosa"], "photo": "/team/kai-nakamura.svg",  "region": "Abu Dhabi" },
+    { "id": "carlos-nelson",      "name": "Carlos Nelson",      "role": "team-leader",       "reportsTo": ["carlos-diego", "bruno-vercosa"], "photo": "/team/kai-nakamura.svg",  "region": "Abu Dhabi" },
+    { "id": "leonardo-pimentel",  "name": "Leonardo Pimentel",  "role": "team-leader",       "reportsTo": "pedro-duarte",                    "photo": "/team/kai-nakamura.svg", "region": "Abu Dhabi" },
+    { "id": "pablo-aragao",       "name": "Pablo Aragao",       "role": "team-leader",       "reportsTo": "pedro-duarte",                    "photo": "/team/kai-nakamura.svg", "region": "Abu Dhabi" },
+    { "id": "marcelo-silveira",   "name": "Marcelo Silveira",   "role": "team-leader",       "reportsTo": "pedro-mesquita",                  "photo": "/team/kai-nakamura.svg",  "region": "Al Ain" },
+    { "id": "pedro-bruno",        "name": "Pedro Bruno",        "role": "team-leader",       "reportsTo": "pedro-mesquita",                  "photo": "/team/kai-nakamura.svg",  "region": "Al Ain" },
+    { "id": "luiz-serafin",       "name": "Luiz Serafin",       "role": "team-leader",       "reportsTo": ["flavio-ferreira", "nilson-lopes"], "photo": "/team/kai-nakamura.svg", "region": "North Region" },
+    { "id": "edward-vilas-boas",  "name": "Edward Vilas Boas",  "role": "team-leader",       "reportsTo": ["flavio-ferreira", "nilson-lopes"], "photo": "/team/kai-nakamura.svg", "region": "North Region" },
+    { "id": "jeferson-germano",   "name": "Jeferson Germano",   "role": "team-leader",       "reportsTo": ["flavio-ferreira", "nilson-lopes"], "photo": "/team/kai-nakamura.svg", "region": "North Region" },
+    { "id": "fagner-caravana",    "name": "Fagner Caravana",    "role": "team-leader",       "reportsTo": ["flavio-ferreira", "nilson-lopes"], "photo": "/team/kai-nakamura.svg", "region": "North Region" },
+    { "id": "rafael-vasques",     "name": "Rafael Vasques",     "role": "team-leader",       "reportsTo": ["flavio-ferreira", "nilson-lopes"], "photo": "/team/kai-nakamura.svg", "region": "North Region" },
+    { "id": "tadeu-soares",       "name": "Tadeu Soares",       "role": "team-leader",       "reportsTo": "alvaro-cardoso",                  "photo": "/team/kai-nakamura.svg", "region": "NSA" },
+    { "id": "fabio-martins",      "name": "Fabio Martins",      "role": "team-leader",       "reportsTo": "alvaro-cardoso",                  "photo": "/team/kai-nakamura.svg", "region": "NSA" },
+    { "id": "andre-felix",        "name": "Andre Felix",        "role": "team-leader",       "reportsTo": "alvaro-cardoso",                  "photo": "/team/kai-nakamura.svg", "region": "NSA" },
+    { "id": "edivaldo-lana",      "name": "Edivaldo Lana",      "role": "team-leader",       "reportsTo": "alvaro-cardoso",                  "photo": "/team/kai-nakamura.svg", "region": "NSA" },
 
-    { "id": "tehuan-melo", "name": "Tehuan Melo", "role": "advisor",           "reportsTo": "fernando-bizerra", "photo": "/team/rafael-duarte.svg", "base": "Base 01" },
-    { "id": "alexandre-costa",   "name": "Alexandre Costa",   "role": "advisor",           "reportsTo": "ricardo-dutra", "photo": "/team/mira-solano.svg",   "base": "Base 03" }
+    { "id": "tehuan-melo",        "name": "Tehuan Melo",        "role": "advisor",           "reportsTo": "fernando-bizerra",                "photo": "/team/rafael-duarte.svg", "region": "Abu Dhabi" },
+    { "id": "alexandre-costa",    "name": "Alexandre Costa",    "role": "advisor",           "reportsTo": "ricardo-dutra",                   "photo": "/team/mira-solano.svg",   "region": "Abu Dhabi" },
+    { "id": "rafael-toyofuku",    "name": "Rafael Toyofuku",    "role": "advisor",           "reportsTo": "ricardo-dutra",                   "photo": "/team/rafael-duarte.svg", "region": "Abu Dhabi" },
+    { "id": "rahan-cunha",        "name": "Rahan Cunha",        "role": "advisor",           "reportsTo": "ricardo-dutra",                   "photo": "/team/mira-solano.svg",   "region": "Abu Dhabi" },
+    { "id": "adriano-castro",     "name": "Adriano Castro",     "role": "advisor",           "reportsTo": "ricardo-dutra",                   "photo": "/team/rafael-duarte.svg", "region": "Abu Dhabi" },
+    { "id": "luiz-nepomuceno",    "name": "Luiz Nepomuceno",    "role": "advisor",           "reportsTo": "edilberto-pontes",                "photo": "/team/mira-solano.svg",   "region": "Abu Dhabi" },
+    { "id": "ricardo-moreno",     "name": "Ricardo Moreno",     "role": "advisor",           "reportsTo": "edilberto-pontes",                "photo": "/team/rafael-duarte.svg", "region": "Abu Dhabi" },
+    { "id": "peterson-goncalves", "name": "Peterson Goncalves", "role": "advisor",           "reportsTo": "carlos-nelson",                   "photo": "/team/mira-solano.svg",   "region": "Abu Dhabi" },
+    { "id": "marcio-silva",       "name": "Marcio Silva",       "role": "advisor",           "reportsTo": "carlos-nelson",                   "photo": "/team/rafael-duarte.svg", "region": "Abu Dhabi" },
+    { "id": "marconi-santiago",   "name": "Marconi Santiago",   "role": "advisor",           "reportsTo": "carlos-nelson",                   "photo": "/team/mira-solano.svg",   "region": "Abu Dhabi" },
+    { "id": "gabriel-calassi",    "name": "Gabriel Calassi",    "role": "advisor",           "reportsTo": "pedro-bruno",                     "photo": "/team/rafael-duarte.svg", "region": "Al Ain" },
+    { "id": "andre-lemes",        "name": "Andre Lemes",        "role": "advisor",           "reportsTo": "pedro-bruno",                     "photo": "/team/mira-solano.svg",   "region": "Al Ain" },
+    { "id": "paulo-grangeiro",    "name": "Paulo Grangeiro",    "role": "advisor",           "reportsTo": "pedro-bruno",                     "photo": "/team/rafael-duarte.svg", "region": "Al Ain" },
+    { "id": "rodrigo-mothci",     "name": "Rodrigo Mothci",     "role": "advisor",           "reportsTo": "marcelo-silveira",                "photo": "/team/mira-solano.svg",   "region": "Al Ain" },
+    { "id": "marcos-santos",      "name": "Marcos Santos",      "role": "advisor",           "reportsTo": "pedro-bruno",                     "photo": "/team/rafael-duarte.svg", "region": "Al Ain" },
+    { "id": "edmilson-messias",   "name": "Edmilson Messias",   "role": "advisor",           "reportsTo": "pedro-bruno",                     "photo": "/team/mira-solano.svg",   "region": "Al Ain" },
+    { "id": "victor-monteiro",    "name": "Victor Monteiro",    "role": "advisor",           "reportsTo": "pedro-bruno",                     "photo": "/team/rafael-duarte.svg", "region": "Al Ain" }
   ]
 }

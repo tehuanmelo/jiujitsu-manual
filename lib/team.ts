@@ -29,17 +29,30 @@ const RoleKeySchema = z.enum([
 const RoleSchema = z.object({
   level: z.number().int().min(1).max(6),
   label: LocalizedSchema,
-  blurb: LocalizedSchema,
 });
 
 const PersonSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/, 'id must be kebab-case'),
   name: z.string().min(1),
   role: RoleKeySchema,
-  reportsTo: z.string().nullable(),
+  /**
+   * `null` for the single root, one person id, or an array of ids for someone
+   * with more than one boss. With an array the person, and everything below
+   * them, is drawn under each of those bosses.
+   */
+  reportsTo: z.union([z.string(), z.array(z.string()).min(1)]).nullable(),
   photo: z.string().startsWith('/team/'),
   base: z.string().optional(),
+  region: z.string().optional(),
 });
+
+type PersonInput = z.infer<typeof PersonSchema>;
+
+/** `reportsTo` normalised to a list: empty for the root. */
+function parentsOf(person: PersonInput): string[] {
+  if (person.reportsTo === null) return [];
+  return typeof person.reportsTo === 'string' ? [person.reportsTo] : person.reportsTo;
+}
 
 const TeamSchema = z
   .object({
@@ -58,34 +71,45 @@ const TeamSchema = z
       fail(`expected exactly one person with "reportsTo": null, found ${roots.length}`);
     }
 
+    const roles = data.roles as Record<string, z.infer<typeof RoleSchema>>;
+
     data.people.forEach((person, i) => {
-      if (person.reportsTo === null) return;
-      const parent = byId.get(person.reportsTo);
-      if (!parent) {
-        return fail(
-          `"${person.id}" reports to "${person.reportsTo}", which is not a person id`,
-          ['people', i, 'reportsTo'],
-        );
+      const path = ['people', i, 'reportsTo'];
+      const parentIds = parentsOf(person);
+      if (new Set(parentIds).size !== parentIds.length) {
+        return fail(`"${person.id}" lists the same boss twice in "reportsTo"`, path);
       }
 
-      // Rank must strictly decrease down the chart. Catches an inverted edge or a
-      // peer-reports-to-peer, both of which would draw a nonsense hierarchy.
-      const roles = data.roles as Record<string, z.infer<typeof RoleSchema>>;
-      if (roles[person.role].level >= roles[parent.role].level) {
-        return fail(
-          `"${person.id}" (${person.role}) cannot report to "${parent.id}" (${parent.role})`,
-          ['people', i, 'reportsTo'],
-        );
-      }
-
-      // Walk up to the root; revisiting a node means the chain loops, which would
-      // make the recursive renderer blow the stack.
-      const seen = new Set([person.id]);
-      for (let cur = parent; cur && cur.reportsTo; cur = byId.get(cur.reportsTo)!) {
-        if (seen.has(cur.id)) {
-          return fail(`"${person.id}" is part of a reporting cycle`, ['people', i, 'reportsTo']);
+      for (const parentId of parentIds) {
+        const parent = byId.get(parentId);
+        if (!parent) {
+          return fail(`"${person.id}" reports to "${parentId}", which is not a person id`, path);
         }
-        seen.add(cur.id);
+
+        // Rank must strictly decrease down the chart. Catches an inverted edge or a
+        // peer-reports-to-peer, both of which would draw a nonsense hierarchy.
+        if (roles[person.role].level >= roles[parent.role].level) {
+          return fail(
+            `"${person.id}" (${person.role}) cannot report to "${parent.id}" (${parent.role})`,
+            path,
+          );
+        }
+      }
+
+      // Depth-first over every boss, and their bosses in turn; getting back to
+      // this person means a chain loops, which would make the recursive builder
+      // blow the stack. `visited` keeps a loop elsewhere from trapping the walk.
+      const visited = new Set<string>();
+      const stack = [...parentIds];
+      while (stack.length > 0) {
+        const id = stack.pop()!;
+        if (id === person.id) {
+          return fail(`"${person.id}" is part of a reporting cycle`, path);
+        }
+        const cur = byId.get(id);
+        if (!cur || visited.has(id)) continue;
+        visited.add(id);
+        stack.push(...parentsOf(cur));
       }
     });
   });
@@ -138,24 +162,22 @@ export function staffedRoles(): Set<RoleKey> {
 }
 
 function build(): OrgNode {
-  const nodes = new Map<string, OrgNode>(
-    team.people.map((person) => [person.id, { person, role: roles[person.role], depth: 0, children: [] }]),
-  );
-  let root: OrgNode | undefined;
+  const childrenOf = new Map<string, Person[]>();
   for (const person of team.people) {
-    const node = nodes.get(person.id)!;
-    if (person.reportsTo === null) root = node;
-    else nodes.get(person.reportsTo)!.children.push(node);
+    for (const parentId of parentsOf(person)) {
+      childrenOf.set(parentId, [...(childrenOf.get(parentId) ?? []), person]);
+    }
   }
-  const setDepth = (node: OrgNode, depth: number) => {
-    node.depth = depth;
-    node.children.forEach((child) => setDepth(child, depth + 1));
-    Object.freeze(node.children);
-    Object.freeze(node);
+  // A fresh node per path, not one node per person: someone with two bosses is
+  // drawn twice, and each copy needs its own depth and its own subtree, so
+  // opening one copy never opens the other.
+  const make = (person: Person, depth: number): OrgNode => {
+    const children = (childrenOf.get(person.id) ?? []).map((child) => make(child, depth + 1));
+    Object.freeze(children);
+    return Object.freeze({ person, role: roles[person.role], depth, children });
   };
   // The schema guarantees exactly one root, so this is safe.
-  setDepth(root!, 0);
-  return root!;
+  return make(team.people.find((p) => p.reportsTo === null)!, 0);
 }
 
 /**

@@ -1,8 +1,9 @@
 /*
  * The scroll cue for the org-chart scroller.
  *
- * Nothing in this component tree carries a client directive and nothing may
- * start to, so a scroll listener is out. The cue is a mask on the scroller,
+ * The tree is server-rendered; the only client code is `org-chart-scroller.tsx`,
+ * which recentres on open and nothing more. The cue stays pure CSS, with no
+ * scroll listener. The cue is a mask on the scroller,
  * in two layers: one that every engine renders, and one that replaces it with
  * the exact thing where the engine can follow a scroll offset in CSS.
  *
@@ -14,19 +15,25 @@
  */
 
 /*
- * Layer 1 — universal. The tree is a fixed 816px wide from `md` up (the two
- * child rows are 768px, plus 24px of `md:px-3` on the root `<li>` and 24px on
- * the root `<ul>`), so a column narrower than that is a column the tree
- * overflows. Re-measure this number if the tree gains or loses a branch:
- * it is the only hard-coded width here, and only engines without
- * scroll-driven animations ever read it.
+ * Layer 1 — universal. The tree's width depends on what is open, and CSS
+ * cannot see that, so this keys on the state that actually scrolls: with one
+ * supervisor open the tree is 1496px from `md` up (their five team leaders
+ * and the two other supervisors, 200px each, plus 24px of `md:px-3` on each
+ * of the two `<li>` above them and 24px on the root `<ul>`), wider than any
+ * docs column, and every further open level only widens it. Collapsed, it is 672px and centred, so at the
+ * usual 825px column the 3rem fade lands on empty margin rather than a card;
+ * only a column between 672px and ~768px fades the edge of a collapsed tree
+ * that does not scroll. Re-measure the number if a supervisor gains or loses
+ * a report: it is the only hard-coded width here. Engines without
+ * scroll-driven animations always read it; the others read it only while
+ * the tree does not scroll (see layer 2).
  *
  * The `@media` gate matters: below `md` the chart is a stacked column with no
  * scroller, and the container is narrow there too — without it every phone
  * would get a fade over a list that does not scroll.
  */
 @media (min-width: 768px) {
-  @container org-chart (max-width: 815px) {
+  @container org-chart (max-width: 1495px) {
     .scroller {
       mask-image: linear-gradient(
         to right,
@@ -52,7 +59,8 @@
  *
  * It also carries its own off switch: a scroll timeline whose scroller has no
  * scrollable overflow is inactive, and an animation on an inactive timeline
- * produces no effect — no 816px to keep in sync. Firefox 146 does not
+ * produces no effect, so the layer 1 rule above shows through — over the
+ * collapsed tree's empty margin at the usual column. Firefox 146 does not
  * implement this yet, which is what layer 1 is for.
  */
 @supports (animation-timeline: scroll()) {

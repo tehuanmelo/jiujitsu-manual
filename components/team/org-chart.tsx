@@ -1,6 +1,7 @@
 import { orgTree, type OrgNode } from '@/lib/team';
 import styles from '@/components/team/org-chart.module.css';
 import { OrgLegend } from '@/components/team/org-legend';
+import { OrgChartScroller } from '@/components/team/org-chart-scroller';
 import { OrgNodeCard } from '@/components/team/org-node-card';
 import { cn } from '@/lib/utils';
 
@@ -44,11 +45,23 @@ const CHILDREN_UL =
   'list-none md:relative md:flex md:justify-center md:before:absolute md:before:left-1/2 md:before:top-0 md:before:w-px md:before:h-5 md:before:-translate-x-1/2 md:before:bg-border';
 
 /**
- * `md:px-3` matches the `<li>` padding, so the tree measures ~816px and clears
- * the 825px prose column at 1440. `md:px-4` lands at ~824px — inside the
- * column by 1px, which the next font-metric change would turn into overflow.
+ * `md:px-3` matches the `<li>` padding. Collapsed, the tree measures 672px and
+ * fits the 825px prose column at 1440; opening any supervisor takes it to
+ * 1496px or more, which scrolls.
  */
 const ROOT_UL = 'list-none md:flex md:w-max md:mx-auto md:px-3';
+
+/**
+ * Levels open by click through a native `<details>`, so the tree stays a server
+ * component (only the scroller around it is client, see `OrgChartScroller`)
+ * and keyboard support comes for free. The CEO and the Technical Manager
+ * start open, which shows everyone down to the supervisors.
+ *
+ * `md:w-max md:mx-auto` keeps the clickable area to the card rather than the
+ * full width of the row below it.
+ */
+const SUMMARY =
+  'block cursor-pointer list-none rounded-xl outline-none [&::-webkit-details-marker]:hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background md:mx-auto md:w-max';
 
 interface BranchProps {
   node: OrgNode;
@@ -58,18 +71,32 @@ interface BranchProps {
 
 function Branch({ node, lang, isRoot = false }: BranchProps) {
   const hasChildren = node.children.length > 0;
+  const openByDefault = node.depth < 2;
 
   return (
     <li className={isRoot ? ROOT_LI : LI}>
       {isRoot ? null : <span className={RISER} aria-hidden="true" />}
-      <OrgNodeCard node={node} lang={lang} />
       {hasChildren ? (
-        <ul className={CHILDREN_UL}>
-          {node.children.map((child) => (
-            <Branch key={child.person.id} node={child} lang={lang} />
-          ))}
-        </ul>
-      ) : null}
+        // One open card per rank level across the chart: a shared `name` makes
+        // the browser close the other one natively. Where `details[name]` is
+        // unsupported both simply stay open. The default-open levels keep no
+        // name so they stay independent.
+        <details
+          open={openByDefault}
+          name={openByDefault ? undefined : `org-level-${node.role.level}`}
+        >
+          <summary className={SUMMARY}>
+            <OrgNodeCard node={node} lang={lang} expandable />
+          </summary>
+          <ul className={CHILDREN_UL}>
+            {node.children.map((child) => (
+              <Branch key={child.person.id} node={child} lang={lang} />
+            ))}
+          </ul>
+        </details>
+      ) : (
+        <OrgNodeCard node={node} lang={lang} />
+      )}
     </li>
   );
 }
@@ -84,10 +111,13 @@ function Branch({ node, lang, isRoot = false }: BranchProps) {
  * would clip the cards' hover lift and shadow — that is what the vertical
  * padding on the scroller is for. Do not trim it.
  *
- * Between 1280 and 1366 the tree genuinely is wider than the column and has to
+ * Once a supervisor is open the tree is wider than the column and has to
  * scroll; `styles.scroller` is what says so, and `styles.chart` is the query
  * container it measures the column against. See the module for why the cue is
  * a mask rather than a gradient overlay.
+ *
+ * `OrgChartScroller` is the one client component here: it recentres the
+ * scroller on a card when it is opened. The tree it wraps stays server-rendered.
  */
 function OrgChart({ lang = 'en', className }: OrgChartProps) {
   const t = lang === 'pt' ? COPY.pt : COPY.en;
@@ -101,7 +131,7 @@ function OrgChart({ lang = 'en', className }: OrgChartProps) {
         {t.heading}
       </h2>
 
-      <div
+      <OrgChartScroller
         className={cn(
           'w-full md:overflow-x-auto md:overscroll-x-contain md:pb-6 md:pt-8',
           styles.scroller,
@@ -110,7 +140,7 @@ function OrgChart({ lang = 'en', className }: OrgChartProps) {
         <ul className={ROOT_UL}>
           <Branch node={orgTree} lang={lang} isRoot />
         </ul>
-      </div>
+      </OrgChartScroller>
 
       <OrgLegend lang={lang} className="mt-6 md:mt-4" />
     </section>

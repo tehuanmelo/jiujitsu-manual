@@ -29,7 +29,7 @@
   "people": [
     { "id": "fouad-darwish",      "name": "Fouad Darwish",      "role": "ceo",               "reportsTo": null,                              "photo": "/team/fouad-darwish-ceo.png", "base": "Head Office" },
 
-    { "id": "lucio-linhares",     "name": "Lucio Linhares",     "role": "technical-manager", "reportsTo": "fouad-darwish",                   "photo": "/team/marcus-stone.svg" },
+    { "id": "lucio-linhares",     "name": "Lucio Linhares",     "role": "technical-manager", "reportsTo": "fouad-darwish",                   "photo": "/team/lucio-linhares-technical-manager.png" },
 
     { "id": "cassiano-cunha",     "name": "Cassiano Cunha",     "role": "supervisor",        "reportsTo": "lucio-linhares",                  "photo": "/team/dante-cruz.svg",    "region": "Abu Dhabi" },
     { "id": "pedro-duarte",       "name": "Pedro Duarte",       "role": "supervisor",        "reportsTo": "lucio-linhares",                  "photo": "/team/dante-cruz.svg",   "region": "Abu Dhabi" },

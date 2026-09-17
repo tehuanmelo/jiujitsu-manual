@@ -56,6 +56,8 @@ function parentsOf(person: PersonInput): string[] {
 
 const TeamSchema = z
   .object({
+    /** Order of the region buttons under the Technical Manager. */
+    regions: z.array(z.string().min(1)).min(1),
     roles: z.record(RoleKeySchema, RoleSchema),
     people: z.array(PersonSchema).min(1),
   })
@@ -65,6 +67,28 @@ const TeamSchema = z
       ctx.addIssue({ code: 'custom', message, path });
 
     if (byId.size !== data.people.length) fail('two people share the same id');
+
+    // Supervisors are drawn inside their region's button, so a missing or
+    // misspelled region would silently drop them from the chart.
+    const regions = new Set(data.regions);
+    if (regions.size !== data.regions.length) fail('"regions" lists the same region twice', ['regions']);
+    const supervisors = data.people.filter((p) => p.role === 'supervisor');
+    data.people.forEach((person, i) => {
+      if (person.role !== 'supervisor') return;
+      if (!person.region) {
+        fail(`supervisor "${person.id}" needs a "region"`, ['people', i]);
+      } else if (!regions.has(person.region)) {
+        fail(
+          `supervisor "${person.id}" has region "${person.region}", which is not in "regions"`,
+          ['people', i, 'region'],
+        );
+      }
+    });
+    for (const region of data.regions) {
+      if (!supervisors.some((p) => p.region === region)) {
+        fail(`region "${region}" has no supervisor`, ['regions']);
+      }
+    }
 
     const roots = data.people.filter((p) => p.reportsTo === null);
     if (roots.length !== 1) {
@@ -127,13 +151,26 @@ export type Person = Team['people'][number];
 export type Role = z.infer<typeof RoleSchema>;
 export type RoleKey = z.infer<typeof RoleKeySchema>;
 
-export interface OrgNode {
+export interface PersonNode {
+  kind: 'person';
   person: Person;
   role: Role;
   /** Position in the tree. Presentation only — never treat this as the rank level. */
   depth: number;
   children: OrgNode[];
 }
+
+/** A button grouping one region's supervisors. Not a person, so it has no rank. */
+export interface RegionNode {
+  kind: 'region';
+  /** Unique per path, like a person copy: the region's name under its boss's id. */
+  id: string;
+  name: string;
+  depth: number;
+  children: PersonNode[];
+}
+
+export type OrgNode = PersonNode | RegionNode;
 
 const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI'] as const;
 
@@ -161,7 +198,7 @@ export function staffedRoles(): Set<RoleKey> {
   return new Set(team.people.map((p) => p.role));
 }
 
-function build(): OrgNode {
+function build(): PersonNode {
   const childrenOf = new Map<string, Person[]>();
   for (const person of team.people) {
     for (const parentId of parentsOf(person)) {
@@ -171,10 +208,27 @@ function build(): OrgNode {
   // A fresh node per path, not one node per person: someone with two bosses is
   // drawn twice, and each copy needs its own depth and its own subtree, so
   // opening one copy never opens the other.
-  const make = (person: Person, depth: number): OrgNode => {
-    const children = (childrenOf.get(person.id) ?? []).map((child) => make(child, depth + 1));
+  const make = (person: Person, depth: number): PersonNode => {
+    const reports = childrenOf.get(person.id) ?? [];
+    const others = reports.filter((child) => child.role !== 'supervisor');
+    const children: OrgNode[] = [];
+    // Supervisors sit one level lower, inside a button for their region, in
+    // the order of `regions`. The schema guarantees each has a listed region.
+    if (others.length < reports.length) {
+      for (const name of team.regions) {
+        const inRegion = reports
+          .filter((child) => child.role === 'supervisor' && child.region === name)
+          .map((child) => make(child, depth + 2));
+        if (inRegion.length === 0) continue;
+        Object.freeze(inRegion);
+        children.push(
+          Object.freeze({ kind: 'region', id: `${person.id}/${name}`, name, depth: depth + 1, children: inRegion }),
+        );
+      }
+    }
+    children.push(...others.map((child) => make(child, depth + 1)));
     Object.freeze(children);
-    return Object.freeze({ person, role: roles[person.role], depth, children });
+    return Object.freeze({ kind: 'person', person, role: roles[person.role], depth, children });
   };
   // The schema guarantees exactly one root, so this is safe.
   return make(team.people.find((p) => p.reportsTo === null)!, 0);
@@ -185,7 +239,7 @@ function build(): OrgNode {
  * graph is handed to every render, so an in-place `.sort()` downstream would
  * corrupt the chart for every later request instead of just one.
  */
-export const orgTree: OrgNode = build();
+export const orgTree: PersonNode = build();
 
 /**
  * The rank ring: one arc per level, like stripes on a belt. Six arcs for the CEO,

@@ -1,8 +1,8 @@
-import { localize, rankRing, roman, type OrgNode } from '@/lib/team';
+import { localize, rankRing, roman, type PersonNode } from '@/lib/team';
 import { cn } from '@/lib/utils';
 
 interface OrgNodeCardProps {
-  node: OrgNode;
+  node: PersonNode;
   lang?: string;
   /** Shows the chevron that says the card opens the level below it. */
   expandable?: boolean;

@@ -3,6 +3,7 @@ import styles from '@/components/team/org-chart.module.css';
 import { OrgLegend } from '@/components/team/org-legend';
 import { OrgChartScroller } from '@/components/team/org-chart-scroller';
 import { OrgNodeCard } from '@/components/team/org-node-card';
+import { OrgRegionPill } from '@/components/team/org-region-pill';
 import { cn } from '@/lib/utils';
 
 interface OrgChartProps {
@@ -45,9 +46,9 @@ const CHILDREN_UL =
   'list-none md:relative md:flex md:justify-center md:before:absolute md:before:left-1/2 md:before:top-0 md:before:w-px md:before:h-5 md:before:-translate-x-1/2 md:before:bg-border';
 
 /**
- * `md:px-3` matches the `<li>` padding. Collapsed, the tree measures 672px and
- * fits the 825px prose column at 1440; opening any supervisor takes it to
- * 1496px or more, which scrolls.
+ * `md:px-3` matches the `<li>` padding. Collapsed, the tree measures 744px and
+ * fits the 825px prose column at 1440, and so does Al Ain or NSA open (800px);
+ * North Region open takes it to 1000px and Abu Dhabi to 1400px, which scroll.
  */
 const ROOT_UL = 'list-none md:flex md:w-max md:mx-auto md:px-3';
 
@@ -55,7 +56,8 @@ const ROOT_UL = 'list-none md:flex md:w-max md:mx-auto md:px-3';
  * Levels open by click through a native `<details>`, so the tree stays a server
  * component (only the scroller around it is client, see `OrgChartScroller`)
  * and keyboard support comes for free. The CEO and the Technical Manager
- * start open, which shows everyone down to the supervisors.
+ * start open, which shows everyone down to the region buttons; the regions
+ * start closed.
  *
  * `md:w-max md:mx-auto` keeps the clickable area to the card rather than the
  * full width of the row below it.
@@ -72,6 +74,25 @@ interface BranchProps {
 function Branch({ node, lang, isRoot = false }: BranchProps) {
   const hasChildren = node.children.length > 0;
   const openByDefault = node.depth < 2;
+
+  if (node.kind === 'region') {
+    // Only one region open at a time, by the same native `name` mechanism.
+    return (
+      <li className={LI}>
+        <span className={RISER} aria-hidden="true" />
+        <details open={openByDefault} name="org-region">
+          <summary className={cn(SUMMARY, 'rounded-full')}>
+            <OrgRegionPill node={node} lang={lang} />
+          </summary>
+          <ul className={CHILDREN_UL}>
+            {node.children.map((child) => (
+              <Branch key={child.person.id} node={child} lang={lang} />
+            ))}
+          </ul>
+        </details>
+      </li>
+    );
+  }
 
   return (
     <li className={isRoot ? ROOT_LI : LI}>
@@ -90,7 +111,11 @@ function Branch({ node, lang, isRoot = false }: BranchProps) {
           </summary>
           <ul className={CHILDREN_UL}>
             {node.children.map((child) => (
-              <Branch key={child.person.id} node={child} lang={lang} />
+              <Branch
+                key={child.kind === 'person' ? child.person.id : child.id}
+                node={child}
+                lang={lang}
+              />
             ))}
           </ul>
         </details>

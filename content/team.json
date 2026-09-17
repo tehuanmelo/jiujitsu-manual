@@ -1,5 +1,6 @@
 {
-  "_comment": "Leadership org chart data. Edit this file to change the chart — no component changes needed. Validated by lib/team.ts at build time: a typo here fails `npm run build` with a readable message rather than shipping a broken page. Roles are a lookup table so each label is written once per language. `reportsTo` is the boss's id, an array of ids for someone with more than one boss (they then appear under each boss, with their whole team), or null for the single root. Sibling order follows the order of this array. Names and photos are placeholders.",
+  "_comment": "Leadership org chart data. Edit this file to change the chart — no component changes needed. Validated by lib/team.ts at build time: a typo here fails `npm run build` with a readable message rather than shipping a broken page. Roles are a lookup table so each label is written once per language. `reportsTo` is the boss's id, an array of ids for someone with more than one boss (they then appear under each boss, with their whole team), or null for the single root. Sibling order follows the order of this array. `regions` sets the order of the region buttons under the Technical Manager; every supervisor needs a `region` from that list, and every region needs at least one supervisor. Names and photos are placeholders.",
+  "regions": ["Abu Dhabi", "North Region", "Al Ain", "NSA"],
   "roles": {
     "ceo": {
       "level": 6,

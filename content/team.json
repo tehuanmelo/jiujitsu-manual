@@ -60,7 +60,7 @@
     { "id": "andre-felix",        "name": "Andre Felix",        "role": "team-leader",       "reportsTo": "alvaro-cardoso",                  "photo": "/team/kai-nakamura.svg", "region": "NSA" },
     { "id": "edivaldo-lana",      "name": "Edivaldo Lana",      "role": "team-leader",       "reportsTo": "alvaro-cardoso",                  "photo": "/team/kai-nakamura.svg", "region": "NSA" },
 
-    { "id": "tehuan-melo",        "name": "Tehuan Melo",        "role": "advisor",           "reportsTo": "fernando-bizerra",                "photo": "/team/rafael-duarte.svg", "region": "Abu Dhabi" },
+    { "id": "tehuan-melo",        "name": "Tehuan Melo",        "role": "advisor",           "reportsTo": "fernando-bizerra",                "photo": "/team/tehuan-melo-advisor.png", "region": "Abu Dhabi" },
     { "id": "alexandre-costa",    "name": "Alexandre Costa",    "role": "advisor",           "reportsTo": "ricardo-dutra",                   "photo": "/team/mira-solano.svg",   "region": "Abu Dhabi" },
     { "id": "rafael-toyofuku",    "name": "Rafael Toyofuku",    "role": "advisor",           "reportsTo": "ricardo-dutra",                   "photo": "/team/rafael-duarte.svg", "region": "Abu Dhabi" },
     { "id": "rahan-cunha",        "name": "Rahan Cunha",        "role": "advisor",           "reportsTo": "ricardo-dutra",                   "photo": "/team/mira-solano.svg",   "region": "Abu Dhabi" },

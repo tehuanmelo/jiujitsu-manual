@@ -57,8 +57,6 @@
     { "id": "rafael-vasques",     "name": "Rafael Vasques",     "role": "team-leader",       "reportsTo": ["flavio-ferreira", "nilson-lopes"], "photo": "/team/kai-nakamura.svg", "region": "North Region" },
     { "id": "tadeu-soares",       "name": "Tadeu Soares",       "role": "team-leader",       "reportsTo": "alvaro-cardoso",                  "photo": "/team/kai-nakamura.svg", "region": "NSA" },
     { "id": "fabio-martins",      "name": "Fabio Martins",      "role": "team-leader",       "reportsTo": "alvaro-cardoso",                  "photo": "/team/kai-nakamura.svg", "region": "NSA" },
-    { "id": "andre-felix",        "name": "Andre Felix",        "role": "team-leader",       "reportsTo": "alvaro-cardoso",                  "photo": "/team/kai-nakamura.svg", "region": "NSA" },
-    { "id": "edivaldo-lana",      "name": "Edivaldo Lana",      "role": "team-leader",       "reportsTo": "alvaro-cardoso",                  "photo": "/team/kai-nakamura.svg", "region": "NSA" },
 
     { "id": "tehuan-melo",        "name": "Tehuan Melo",        "role": "advisor",           "reportsTo": "fernando-bizerra",                "photo": "/team/tehuan-melo-advisor.png", "region": "Abu Dhabi" },
     { "id": "alexandre-costa",    "name": "Alexandre Costa",    "role": "advisor",           "reportsTo": "ricardo-dutra",                   "photo": "/team/mira-solano.svg",   "region": "Abu Dhabi" },
@@ -76,6 +74,7 @@
     { "id": "rodrigo-mothci",     "name": "Rodrigo Mothci",     "role": "advisor",           "reportsTo": "marcelo-silveira",                "photo": "/team/mira-solano.svg",   "region": "Al Ain" },
     { "id": "marcos-santos",      "name": "Marcos Santos",      "role": "advisor",           "reportsTo": "pedro-bruno",                     "photo": "/team/rafael-duarte.svg", "region": "Al Ain" },
     { "id": "edmilson-messias",   "name": "Edmilson Messias",   "role": "advisor",           "reportsTo": "pedro-bruno",                     "photo": "/team/mira-solano.svg",   "region": "Al Ain" },
-    { "id": "victor-monteiro",    "name": "Victor Monteiro",    "role": "advisor",           "reportsTo": "pedro-bruno",                     "photo": "/team/rafael-duarte.svg", "region": "Al Ain" }
+    { "id": "victor-monteiro",    "name": "Victor Monteiro",    "role": "advisor",           "reportsTo": "pedro-bruno",                     "photo": "/team/rafael-duarte.svg", "region": "Al Ain" },
+    { "id": "ivson-marques",      "name": "Ivson Marques",      "role": "advisor",           "reportsTo": "alvaro-cardoso",                  "photo": "/team/rafael-duarte.svg", "region": "NSA" }
   ]
 }

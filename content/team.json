@@ -75,6 +75,6 @@
     { "id": "marcos-santos",      "name": "Marcos Santos",      "role": "advisor",           "reportsTo": "pedro-bruno",                     "photo": "/team/rafael-duarte.svg", "region": "Al Ain" },
     { "id": "edmilson-messias",   "name": "Edmilson Messias",   "role": "advisor",           "reportsTo": "pedro-bruno",                     "photo": "/team/mira-solano.svg",   "region": "Al Ain" },
     { "id": "victor-monteiro",    "name": "Victor Monteiro",    "role": "advisor",           "reportsTo": "pedro-bruno",                     "photo": "/team/rafael-duarte.svg", "region": "Al Ain" },
-    { "id": "ivson-marques",      "name": "Ivson Marques",      "role": "advisor",           "reportsTo": "alvaro-cardoso",                  "photo": "/team/rafael-duarte.svg", "region": "NSA" }
+    { "id": "ivson-marques",      "name": "Ivson Marques",      "role": "advisor",           "reportsTo": ["tadeu-soares", "fabio-martins"],                 "photo": "/team/rafael-duarte.svg", "region": "NSA" }
   ]
 }
